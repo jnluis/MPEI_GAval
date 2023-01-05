@@ -4,7 +4,7 @@ clc;
 load('data.mat');
 filmID = 0;
 
-while(filmID<1 || filmID>943)
+while(filmID<1 || filmID>1682)
     filmID = input('Insert Film ID (1 to 1682): ');
     if (filmID<1 || filmID>1682)
         fprintf("ERROR: Enter a valid Film ID\n");
@@ -21,14 +21,12 @@ menu = menu('Menu', ...
 while(menu ~= 5 && menu ~= 0)
     switch menu
         case 1
-            fprintf("\nUsers who rate the movie:\n");
+            fprintf('\nUsers who rate the movie "%s":\n',dic2{filmID});
             for i=1:nUsers
-                if find(filmID,Set{i})
+                if ismember(filmID,Set{i})
                     fprintf(" (ID: %d) %s %s\n", i, dic{i,2}, dic{i,3})
                 end
             end
-
-
         case 2
 
         case 3
