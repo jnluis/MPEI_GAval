@@ -1,7 +1,7 @@
 clear;
 clc;
 
-[Set, users] = create_structure('u.data');
+[Set, films] = create_structure('u.data');
 
 dic = readcell('users.txt', 'Delimiter', ';');
 nUsers = height(dic);
@@ -11,7 +11,7 @@ nFilms = height(dic2);
 
 
 % Cálculo do MinHash correspondente aos utilizadores 
-nHF = 1000;
+nHF = 500;
 MinHashUsers = MinHash(Set,nHF);
 
 % Cálculo do MinHash correspondente aos interesses 
