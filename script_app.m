@@ -66,6 +66,7 @@ while(menu ~= 5 && menu ~= 0)
             nHF = 200;
             conjunto = zeros(nUsers,3);
             count = 1;
+            disp('Loading data, please wait...')
             for i= 1:length(userIDs)
                 n1 = userIDs(i);  
                 for n2=1:nUsers
@@ -80,7 +81,7 @@ while(menu ~= 5 && menu ~= 0)
                     end
                 end
             end
-            
+            disp('Data loaded')
             %Contar quantas vezes aparecem cada user que ainda não viu o filme
             conjuntoUnique = unique(conjunto(:,2));
             counts = zeros(length(conjuntoUnique),2);
