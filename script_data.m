@@ -40,15 +40,15 @@ shingles = 4;
 MinHashTitles = MinHashStrings(nFilms, dic2, shingles,nHF);
 
 % Bloom Filter
-n = 10000;
-k = floor(n*log(2)/nFilms);
+n = 15000;
+k =  round(n*log(2)/nFilms);
 countingBF = Inicializar_FiltroBloom(n);
 
 for i=1:nFilms
-    for rate=1:size(Set{i},1)
-        if Set{i}(rate,2) >= 3
-            countingBF = Adicionar_FiltroBloom(countingBF,i,k,n);
-        end
+    array = Set{i};
+    array(array(:,2) < 3,:) = []; %remover users que deram menos de 3
+    for x = 1:length(array(:,2))
+        countingBF = Adicionar_FiltroBloom(countingBF,i,k,n);
     end
 end
 

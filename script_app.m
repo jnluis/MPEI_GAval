@@ -21,12 +21,14 @@ menu = menu('Menu', ...
 while(menu ~= 5 && menu ~= 0)
     switch menu
         case 1
-            fprintf('\nUsers who rate the movie "%s":\n',dic2{filmID});
+            fprintf("\nOption 1 - \n")
+            fprintf('Users who rate the movie "%s":\n',dic2{filmID});
             userIDs = Set{filmID};
             for i=1:length(userIDs)
                 fprintf(" (ID: %d) %s %s\n", userIDs(i), dic{userIDs(i),2}, dic{userIDs(i),3})
             end
         case 2
+            fprintf("\nOption 2 - \n")
             nHF = 500;
             distance = zeros(nFilms, 1);
             for i = 1:nFilms
@@ -40,7 +42,7 @@ while(menu ~= 5 && menu ~= 0)
             % ordena o array por ordem crescente
             [~, idx] = sort(distance, 'ascend');
             mostSimilar = idx(1:2); % vai buscar os dois primeiros que são os mais similares
-            fprintf('\nThe two most similar films to film %d are %d and %d\n', filmID, mostSimilar);
+            fprintf('The two most similar films to film %d are %d and %d\n', filmID, mostSimilar);
 
             % Encontra os utilizadores que avalariam pelo menos um dos filmes similares  
             usersInfo = [];
@@ -58,6 +60,7 @@ while(menu ~= 5 && menu ~= 0)
             end
 
         case 3
+            fprintf("\nOption 3 - \n")
             userIDs = Set{filmID};
             threshold=0.9; % limiar da decisão para a Dist. de Jaccard
             nHF = 200;
@@ -103,13 +106,14 @@ while(menu ~= 5 && menu ~= 0)
             counts = sortrows(counts, [-2, 3]); % ordena o array pela ordem decrescente da segunda coluna e por ordem crescente na terceira
 
             mostCommon = counts(1:2); % vai buscar os dois primeiros que são os mais similares
-            fprintf('\nThe two users who appear in more sets are:\n');
+            fprintf('The two users who appear in more sets are:\n');
             for i = mostCommon
                 fprintf(" (ID: %d) %s %s\n", i, dic{i,2}, dic{i,3})
             end
 
         case 4
-            string = lower(input('\nWrite a string: ','s'));
+            fprintf("\nOption 4 - \n")
+            string = lower(input('Write a string: ','s'));
             shingle = 4;
             nHF = 100;
             MinHashString = Function_MinHashString(string, shingle,nHF);
@@ -119,11 +123,15 @@ while(menu ~= 5 && menu ~= 0)
             end
             [~, idx] = sort(distanceFilms, 'ascend');
 
-            fprintf("\nFilmes Sugeridos: \n")
+            fprintf("Suggested Movies: \n")
             mostSimilar = idx(1:3); % vai buscar os dois primeiros que são os mais similares
+            n = 15000;
+            k = round(n*log(2)/nFilms);
+
             for i=1:length(mostSimilar)
                 x=mostSimilar(i);
-                fprintf(" (ID: %d) %s\n", x, dic2{x})
+                count = Membro_FiltroBloom(countingBF,mostSimilar(i),k,n);
+                fprintf(" (ID: %d) %s -  Nº. of times it was rated >= 3: %d \n", x, dic2{x},count)
             end
 
     end
