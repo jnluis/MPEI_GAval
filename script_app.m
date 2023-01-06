@@ -29,7 +29,7 @@ while(menu ~= 5 && menu ~= 0)
             end
         case 2
             fprintf("\nOption 2 - \n")
-            nHF = 500;
+            nHF = 1000;
             distance = zeros(nFilms, 1);
             for i = 1:nFilms
                 if i ~= filmID
@@ -126,7 +126,7 @@ while(menu ~= 5 && menu ~= 0)
 
             fprintf("Suggested Movies: \n")
             mostSimilar = idx(1:3); % vai buscar os dois primeiros que são os mais similares
-            n = 15000;
+            n = 10000;
             k = round(n*log(2)/nFilms);
 
             for i=1:length(mostSimilar)

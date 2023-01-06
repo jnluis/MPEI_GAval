@@ -6,7 +6,7 @@ x = waitbar(0,'Calculating MinHashString');
 for n1=1:n
     waitbar(n1/n,x);
     string=lower(dic{n1,1});
-    for n2=1:length(string)-shingles+1 %Garantimos a correta formação dos shingles
+    for n2=1:length(string)-shingles+1
         shingle=string(n2:n2+shingles-1);
         h=zeros(1,hf);
         for i=1:hf
