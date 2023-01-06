@@ -60,41 +60,47 @@ while(menu ~= 5 && menu ~= 0)
         case 3
             userIDs = Set{filmID};
             threshold=0.9; % limiar da decisão para a Dist. de Jaccard
-            nHF = 100;
-            conjunto = [];
+            nHF = 200;
+            conjunto = zeros(nUsers,3);
             count = 1;
             for i= 1:length(userIDs)
                 n1 = userIDs(i);  
                 for n2=1:nUsers
-                    if ~ismember(n2, Set{filmID}) % se o utilizador não viu o filme atual é feito o cálculo da distância
+                    if ~ismember(n2, userIDs(:,1)) % se o utilizador não viu o filme atual é feito o cálculo da distância
                         distanceInterests = 1-sum(MinHashInterests(n1,:)==MinHashInterests(n2,:))/nHF;
                         if distanceInterests<threshold 
                             conjunto(count, 1) = n1;
                             conjunto(count, 2) = n2;
+                            conjunto(count, 3) = distanceInterests;
                             count = count + 1;
                         end
                     end
                 end
             end
-
+            
             %Contar quantas vezes aparecem cada user que ainda não viu o filme
             conjuntoUnique = unique(conjunto(:,2));
             counts = zeros(length(conjuntoUnique),2);
-
             for i=1:length(conjuntoUnique)
                 u = conjuntoUnique(i);
                 count = 0;
+                dist = 1;
                 for x=1:length(conjunto(:,2))
                     c = conjunto(x,2);
                     if c == u
                         count = count +1;
+                        if dist > conjunto(x,3)
+                            dist = conjunto(x,3); % guardar a menor distância
+                        end
                     end
                 end
                 counts(i,1) = u;
                 counts(i,2) = count;
+                counts(i,3) = dist;
+
             end
             
-            counts = sortrows(counts, 2, "descend");
+            counts = sortrows(counts, [-2, 3]); % ordena o array pela ordem decrescente da segunda coluna e por ordem crescente na terceira
 
             mostCommon = counts(1:2); % vai buscar os dois primeiros que são os mais similares
             fprintf('\nThe two users who appear in more sets are:\n');
@@ -103,7 +109,7 @@ while(menu ~= 5 && menu ~= 0)
             end
 
         case 4
-            string = lower(input('Write a string: ','s'));
+            string = lower(input('\nWrite a string: ','s'));
             shingle = 4;
             nHF = 100;
             MinHashString = Function_MinHashString(string, shingle,nHF);
@@ -112,11 +118,11 @@ while(menu ~= 5 && menu ~= 0)
                 distanceFilms(i)=1-sum(MinHashString(1,:)==MinHashTitles(i,:))/nHF;
             end
             [~, idx] = sort(distanceFilms, 'ascend');
-            count=0;
+
             fprintf("\nFilmes Sugeridos: \n")
-            mostCommon = idx(1:3); % vai buscar os dois primeiros que são os mais similares
-            for i=1:length(mostCommon)
-                x=mostCommon(i);
+            mostSimilar = idx(1:3); % vai buscar os dois primeiros que são os mais similares
+            for i=1:length(mostSimilar)
+                x=mostSimilar(i);
                 fprintf(" (ID: %d) %s\n", x, dic2{x})
             end
 
