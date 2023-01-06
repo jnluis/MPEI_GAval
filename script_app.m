@@ -103,7 +103,23 @@ while(menu ~= 5 && menu ~= 0)
             end
 
         case 4
-            
+            string = lower(input('Write a string: ','s'));
+            shingle = 4;
+            nHF = 100;
+            MinHashString = Function_MinHashString(string, shingle,nHF);
+            distanceFilms = zeros(nFilms, 1);
+            for i = 1:nFilms
+                distanceFilms(i)=1-sum(MinHashString(1,:)==MinHashTitles(i,:))/nHF;
+            end
+            [~, idx] = sort(distanceFilms, 'ascend');
+            count=0;
+            fprintf("\nFilmes Sugeridos: \n")
+            mostCommon = idx(1:3); % vai buscar os dois primeiros que são os mais similares
+            for i=1:length(mostCommon)
+                x=mostCommon(i);
+                fprintf(" (ID: %d) %s\n", x, dic2{x})
+            end
+
     end
 
     clear menu;
@@ -113,4 +129,18 @@ while(menu ~= 5 && menu ~= 0)
         '3 - Suggestion of users to based on common interests', ...
         '4 - Movies feedback based on populatrity', ...
         '5 - Exit');
+end
+
+%% Funções
+function MinHashString = Function_MinHashString(string, shingle,nhf)
+    MinHashString=inf(1,nhf);
+    for j=1:length(string)-shingle+1
+        shingles=string(j:j+shingle-1);
+        h=zeros(1,nhf);
+        for m=1:nhf
+            shingles=[shingles num2str(m)];
+            h(m)=DJB31MA(shingles,127);
+        end
+        MinHashString(1,:)=min(MinHashString(1,:),h);
+    end
 end
