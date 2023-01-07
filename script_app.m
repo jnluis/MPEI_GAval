@@ -25,7 +25,7 @@ while(menu ~= 5 && menu ~= 0)
             fprintf('Users who rate the movie "%s":\n',dic2{filmID});
             userIDs = Set{filmID};
             for i=1:length(userIDs)
-                fprintf(" (ID: %d) %s %s\n", userIDs(i), dic{userIDs(i),2}, dic{userIDs(i),3})
+                fprintf(" (ID: %3d) %s %s\n", userIDs(i), dic{userIDs(i),2}, dic{userIDs(i),3})
             end
         case 2
             fprintf("\nOption 2 - \n")
@@ -56,7 +56,7 @@ while(menu ~= 5 && menu ~= 0)
 
             fprintf('Users who rated one of the similar movies, but not the movie "%s":\n', dic2{filmID});
             for i = usersInfo
-                fprintf(" (ID: %d) %s %s\n", i, dic{i,2}, dic{i,3})
+                fprintf(" (ID: %3d) %s %s\n", i, dic{i,2}, dic{i,3})
             end
 
         case 3
@@ -110,7 +110,7 @@ while(menu ~= 5 && menu ~= 0)
             mostCommon = counts(1:2); 
             fprintf('The two users who appear in more sets are:\n');
             for i = mostCommon
-                fprintf(" (ID: %d) %s %s\n", i, dic{i,2}, dic{i,3})
+                fprintf(" (ID: %3d) %s %s\n", i, dic{i,2}, dic{i,3})
             end
 
         case 4
@@ -134,7 +134,7 @@ while(menu ~= 5 && menu ~= 0)
             for i=1:length(mostSimilar)
                 x=mostSimilar(i);
                 count = Membro_FiltroBloom(countingBF,mostSimilar(i),k,n);
-                fprintf(" (ID: %d) %s -  Nº. of times it was rated >= 3: %d \n", x, dic2{x},count)
+                fprintf(" (ID: %3d) %s -  Nº. of times it was rated >= 3: %d \n", x, dic2{x},count)
             end
 
     end
