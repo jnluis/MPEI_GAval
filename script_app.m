@@ -70,7 +70,7 @@ while(menu ~= 5 && menu ~= 0)
             for i= 1:length(userIDs)
                 n1 = userIDs(i);  
                 for n2=1:nUsers
-                    if ~ismember(n2, userIDs(:,1)) % se o utilizador não viu o filme atual é feito o cálculo da distância
+                    if ~ismember(n2, userIDs(:,1)) 
                         distanceInterests = 1-sum(MinHashInterests(n1,:)==MinHashInterests(n2,:))/nHF;
                         if distanceInterests<threshold 
                             conjunto(count, 1) = n1;
@@ -83,6 +83,7 @@ while(menu ~= 5 && menu ~= 0)
             end
             disp('Data loaded')
             %Contar quantas vezes aparecem cada user que ainda não viu o filme
+
             conjuntoUnique = unique(conjunto(:,2));
             counts = zeros(length(conjuntoUnique),2);
             for i=1:length(conjuntoUnique)
@@ -104,9 +105,9 @@ while(menu ~= 5 && menu ~= 0)
 
             end
             
-            counts = sortrows(counts, [-2, 3]); % ordena o array pela ordem decrescente da segunda coluna e por ordem crescente na terceira
+            counts = sortrows(counts, [-2, 3]); 
 
-            mostCommon = counts(1:2); % vai buscar os dois primeiros que são os mais similares
+            mostCommon = counts(1:2); 
             fprintf('The two users who appear in more sets are:\n');
             for i = mostCommon
                 fprintf(" (ID: %d) %s %s\n", i, dic{i,2}, dic{i,3})
@@ -116,16 +117,17 @@ while(menu ~= 5 && menu ~= 0)
             fprintf("\nOption 4 - \n")
             string = lower(input('Write a string: ','s'));
             shingle = 4;
-            nHF = 100;
+            nHF = 200;
             MinHashString = Function_MinHashString(string, shingle,nHF);
             distanceFilms = zeros(nFilms, 1);
             for i = 1:nFilms
                 distanceFilms(i)=1-sum(MinHashString(1,:)==MinHashTitles(i,:))/nHF;
             end
+
             [~, idx] = sort(distanceFilms, 'ascend');
 
             fprintf("Suggested Movies: \n")
-            mostSimilar = idx(1:3); % vai buscar os dois primeiros que são os mais similares
+            mostSimilar = idx(1:3); 
             n = 10000;
             k = round(n*log(2)/nFilms);
 

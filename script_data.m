@@ -21,7 +21,7 @@ nHF = 200;
 MinHashInterests = MinHash_Inte(sigInterests,Interests, nHF, nUsers);
 
 % Cálculo do MinHash correspondente aos Titulos 
-nHF = 100;
+nHF = 200;
 shingles = 4;
 MinHashTitles = MinHashStrings(nFilms, dic2, shingles,nHF);
 
