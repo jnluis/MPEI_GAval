@@ -136,7 +136,6 @@ while(menu ~= 5 && menu ~= 0)
                 count = Membro_FiltroBloom(countingBF,mostSimilar(i),k,n);
                 fprintf(" (ID: %3d) %s -  Nº. of times it was rated >= 3: %d \n", x, dic2{x},count)
             end
-
     end
 
     clear menu;
